@@ -1,8 +1,260 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1.0">
+		<title>ensorcell</title>
+		<link href="main.css" rel="stylesheet">
+		<style> 
+			@font-face{
+				font-family:Ailerons;
+				src:url(Ailerons.otf);
+			}
+			body {
+				background-image: url("./images/bg.jpg");
+				background-size: 100%;
+			}
+			p{
+				font-size: 4vw;
+				font-family:Ailerons;
+				text-align:center;
+				padding-top:8%;
+				padding-bottom:8%;
+				margin:0px; 
+			}
+		</style>
+		<script>
+			function load() {
+				if(localStorage.getItem("state")==="homescreen"){
+					goto('homescreen');
+					fadeIn(document.getElementById("nav"),400);
+					localStorage.setItem("blob", "clicked");
+				}
+				else if(localStorage.getItem("state")==="desktop"){
+					goto('desktop');
+					fadeIn(document.getElementById("nav"),400);
+					localStorage.setItem("blob", "clicked");
+				}
+				else if(localStorage.getItem("blob")==="clicked"){
+					fadeIn(document.getElementById("menu"),400);
+					fadeIn(document.getElementById("nav"),400);
+					localStorage.setItem("state","menu");
+				}
+				else{
+					fadeIn(document.getElementById("landing"),400);
+				}
+			}
+			function enter() {
+				fadeOut(document.getElementById("landing"),400);
+				fadeOut(document.getElementById("ensorcell"),400);
+				fadeOut(document.getElementById("rice"),400);
+				fadeOut(document.getElementById("desktop"),400);
+				fadeOut(document.getElementById("homescreen"),400);
+				fadeOut(document.getElementById("music"),400);
+				fadeIn(document.getElementById("menu"),400);
+				fadeIn(document.getElementById("nav"),400);
+				localStorage.setItem("blob", "clicked");
+				localStorage.setItem("state","menu");
+			}
+			function goto(page){
+				fadeOut(document.getElementById("landing"),400);
+				fadeOut(document.getElementById("ensorcell"),400);
+				fadeOut(document.getElementById("rice"),400);
+				fadeOut(document.getElementById("desktop"),400);
+				fadeOut(document.getElementById("homescreen"),400);
+				fadeOut(document.getElementById("music"),400);
+				fadeOut(document.getElementById("menu"),400);
+				fadeIn(document.getElementById(page),400);
+				localStorage.setItem("state",page);
+			}
+			function back(){
+				if(localStorage.getItem("state")==="homescreen"){
+					fadeOut(document.getElementById("homescreen"),400);
+					fadeIn(document.getElementById("rice"),400);
+					localStorage.setItem("state","rice");
+				}
+				else if(localStorage.getItem("state")==="desktop"){
+					fadeOut(document.getElementById("desktop"),400);
+					fadeIn(document.getElementById("rice"),400);
+					localStorage.setItem("state","rice");
+				}
+				else if(localStorage.getItem("state")==="rice"){
+					fadeOut(document.getElementById("rice"),400);
+					fadeIn(document.getElementById("menu"),400);
+					localStorage.setItem("state","menu");
+				}
+				else if(localStorage.getItem("state")==="ensorcell"){
+					fadeOut(document.getElementById("ensorcell"),400);
+					fadeIn(document.getElementById("menu"),400);
+					localStorage.setItem("state","menu");
+				}
+				else if(localStorage.getItem("state")==="music"){
+					fadeOut(document.getElementById("music"),400);
+					fadeIn(document.getElementById("menu"),400);
+					localStorage.setItem("state","menu");
+				}
+			}
+			function fadeIn(e,time){
+				e.style.display = "block";
+				var last = +new Date();
+				var tick = function() {
+					e.style.opacity = +e.style.opacity + (new Date() - last) / time;
+					last = +new Date();
+					if (+e.style.opacity < 1) {
+						(window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16)
+					}
+				};
+				tick();
+			}
+			function fadeOut(e,time){
+				e.style.display = "block";
+				var last = +new Date();
+				var tick = function() {
+					e.style.opacity = +e.style.opacity - (new Date() - last) / time;
+					last = +new Date();
+					if (+e.style.opacity >0) {
+						(window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16)
+					}
+					else{e.style.display="none";}
+				};
+				tick();
+			}
+		</script>
 
-<body>
-:wave:
-</body>
-
+	</head>
+	<body onpageshow="load()" id=body>
+		<main id=landing style="display:none">
+			<a href="#"><img class="cent" src="./images/entry.png" onclick="enter()"></a><p>e</p>
+		</main>
+		<main id=menu style="display:none">
+			<div class="bar">
+				<a href="#">
+				<div class="horiz" style="background-image:url('./images/main1.jpg')" onclick="goto('ensorcell')">
+					<p>ensorcell</p>
+				</div>
+				</a>
+			</div>
+			<div class="bar">
+				<a href="#">
+				<div class="horiz" style="background-image:url('./images/main2.jpg')" onclick="goto('rice')">
+					<p>rice</p>
+				</div>
+				</a>
+			</div>
+			<div class="bar">
+				<a href="#">
+				<div class="horiz" style="background-image:url('./images/main3.jpg')" onclick="goto('music')">
+					<p>music</p>
+				</div>
+				</a>
+			</div>
+		</main>
+		<main id=ensorcell style="display:none">
+			<div class="bar">
+				<a href="https://discord.gg/CXyrjT7">
+				<div class="horiz" style="background-image:url('./images/ensorcell1.jpg')">
+					<p>discord</p>
+				</div>
+				</a>
+			</div>
+			<div class="bar">
+				<a href="http://myanimelist.net/animelist/ensorcell?&order=4">
+				<div class="horiz" style="background-image:url('./images/ensorcell2.jpg')">
+					<p>anime</p>
+				</div>
+				</a>
+			</div>
+			<div class="bar">
+				<a href="http://ceremelia.tumblr.com/">
+				<div class="horiz" style="background-image:url('./images/ensorcell3.jpg')">
+					<p>blog</p>
+				</div>
+				</a>
+			</div>
+		</main>
+		<main id=rice style="display:none">
+			<div class="bar">
+				<a href="#">
+				<div class="horiz" style="background-image:url('./images/rice1.jpg')" onclick="goto('homescreen')">
+					<p>homescreen</p>
+				</div>
+				</a>
+			</div>
+			<div class="bar">
+				<a href="#">
+				<div class="horiz" style="background-image:url('./images/rice2.jpg')" onclick="goto('desktop')">
+					<p>desktop</p>
+				</div>
+				</a>
+			</div>
+		</main>
+		<main class="amain" id=homescreen style="display:none">
+			<table style="width:100%">
+				<tr>
+					<td class="sing" align="left">
+						<a href="./images/rice/1.png">
+						<img class="home" src="./images/rice/1.png">
+ 						</a>
+					</td>
+					<td class="sing">
+						<a href="./images/rice/2.webm">
+							<video class="home" autoplay loop>
+							<source src="./images/rice/2.webm" type="video/webm">
+							Your browser does not support WebM.
+							</video>
+ 						</a>
+					</td>
+					<td class="sing" align="right">
+						<a href="./images/rice/3.jpg">
+						<img class="home" src="./images/rice/3.jpg">
+ 						</a>
+					</td>
+				</tr>
+			</table>
+		</main>
+		<main class="dtop" id=desktop style="display:none">
+			<table style="width:100%">
+				<tr>
+					<td class="desk" align="left">
+						<a href="./images/rice/windows.png">
+						<img class="home" src="./images/rice/windows.png">
+ 						</a>
+					</td>
+					<td class="desk" align="right">
+						<a href="./images/rice/linux.png">
+						<img class="home" src="./images/rice/linux.png">
+ 						</a>
+					</td>
+				</tr>
+			</table>
+		</main>
+		<main id=music style="display:none">
+			<div class="bar">
+				<a href="http://www.last.fm/user/ceremelia">
+				<div class="horiz" style="background-image:url('./images/music1.jpg')">
+					<p>last.fm</p>
+				</div>
+				</a>
+			</div>
+			<div class="bar">
+				<a href="https://rateyourmusic.com/~ensorcell">
+				<div class="horiz" style="background-image:url('./images/music2.jpg')">
+					<p>rym</p>
+				</div>
+				</a>
+			</div>
+			<div class="bar">
+				<a href="https://www.youtube.com/channel/UC5VbF5UkFzNfxcWuioQdu0Q">
+				<div class="horiz" style="background-image:url('./images/music3.jpg')">
+					<p>youtube</p>
+				</div>
+				</a>
+			</div>
+		</main>
+        <ul id=nav style="display:none">
+			<li onclick="enter()"><a href="#">home</a></li>
+			<li onclick="back()"><a href="#">previous</a></li>
+		</ul>
+	</body>
 </html>
